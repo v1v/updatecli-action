@@ -251,7 +251,9 @@ describe('getUpdatecliVersion', () => {
     await fs.writeFile(versionFile, '')
     process.env['INPUT_VERSION'] = ''
     process.env['INPUT_VERSION-FILE'] = versionFile
-    await expect(getUpdatecliVersion()).rejects.toThrowErrorMatchingInlineSnapshot(
+    await expect(
+      getUpdatecliVersion()
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"No supported version was found in file ${versionFile}"`
     )
     await fs.unlink(versionFile)

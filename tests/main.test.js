@@ -93,19 +93,7 @@ describe('main', () => {
     )
   }, 10_000)
 
-  it('unknown platform', async () => {
-    process.env['INPUT_VERSION'] = DEFAULT_VERSION
-    fakePlatformArch('foo', 'bar')
-    await expect(
-      updatecliDownload()
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Unsupported platform foo and arch bar"`
-    )
-    restorePlatformArch()
-  }, 10_000)
-
   it('updatecli not found', async () => {
-    process.env['INPUT_VERSION'] = DEFAULT_VERSION
     const path = process.env['PATH']
     process.env['PATH'] = ''
     await expect(updatecliVersion()).rejects.toThrowErrorMatchingInlineSnapshot(
@@ -126,6 +114,15 @@ describe('main', () => {
 })
 
 describe('updatecliDownload', () => {
+  it('unknown platform', async () => {
+    fakePlatformArch('foo', 'bar')
+    await expect(
+      updatecliDownload(DEFAULT_VERSION)
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Unsupported platform foo and arch bar"`
+    )
+    restorePlatformArch()
+  }, 10_000)
   it('linux should download', async () => {
     fakePlatformArch('linux', 'x64')
     await updatecliDownload(DEFAULT_VERSION)

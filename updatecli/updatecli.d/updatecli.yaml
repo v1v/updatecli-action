@@ -16,9 +16,9 @@ scms:
     default:
         kind: github
         spec:
-            branch: test
+            branch: v2
             email: me@olblak.com
-            owner: v1v
+            owner: updatecli
             repository: updatecli-action
             token: '{{requiredEnv "GITHUB_TOKEN"}}'
             user: updatecli

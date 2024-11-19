@@ -40,6 +40,11 @@ export async function updatecliExtract(downloadPath, downloadUrl) {
 
 // download Updatecli retrieve updatecli binary from Github Release
 export async function updatecliDownload(version) {
+  if (!version) {
+    throw new Error(
+      `No supported version was found`
+    )
+  }
   const updatecliPackages = [
     {
       arch: 'x64',

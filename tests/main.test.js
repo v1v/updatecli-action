@@ -204,7 +204,7 @@ describe('getVersionFromFileContent', () => {
     await fs.writeFile(versionFile, fileContent)
 
     const version = await getVersionFromFileContent(versionFile)
-    expect(version).toBeNull()
+    expect(version).toBeUndefined()
 
     await fs.unlink(versionFile)
   })
@@ -215,7 +215,7 @@ describe('getVersionFromFileContent', () => {
     await fs.writeFile(versionFile, fileContent)
 
     const version = await getVersionFromFileContent(versionFile)
-    expect(version).toBeNull()
+    expect(version).toBeUndefined()
 
     await fs.unlink(versionFile)
   })

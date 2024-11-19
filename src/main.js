@@ -125,7 +125,7 @@ export async function run() {
 
 export async function getVersionFromFileContent(versionFile) {
   if (!versionFile) {
-    return null
+    return
   }
 
   let versionRegExp
@@ -135,7 +135,7 @@ export async function getVersionFromFileContent(versionFile) {
   } else if (versionFileName) {
     versionRegExp = /(?<version>(v\d+\S*))(\s|$)/
   } else {
-    return null
+    return
   }
 
   try {
@@ -145,13 +145,13 @@ export async function getVersionFromFileContent(versionFile) {
       fileContent = content.match(versionRegExp)?.groups?.version
     }
     if (!fileContent) {
-      return null
+      return
     }
     core.debug(`Version from file '${fileContent}'`)
     return fileContent
   } catch (error) {
     if (error.code === 'ENOENT') {
-      return null
+      return
     }
     throw error
   }

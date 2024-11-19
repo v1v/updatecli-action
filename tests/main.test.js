@@ -19,8 +19,8 @@ const temporaryPath = path.join(directory, 'TEMP')
 process.env['RUNNER_TEMP'] = temporaryPath
 process.env['RUNNER_TOOL_CACHE'] = cachePath
 
-const version = `v0.86.0`
-const versionWithoutV = version.slice(1)
+const DEFAULT_VERSION = `v0.86.0`
+const versionWithoutV = DEFAULT_VERSION.slice(1)
 
 const originalPlatform = process.platform
 const originalArch = process.arch
@@ -44,7 +44,7 @@ const fakePlatformArch = (fakePlatform, fakeArch) => {
 
 describe('main', () => {
   it('run', async () => {
-    process.env['INPUT_VERSION'] = version
+    process.env['INPUT_VERSION'] = DEFAULT_VERSION
     await run()
     const file = path.join(
       cachePath,
@@ -85,7 +85,7 @@ describe('main', () => {
   }, 10_000)
 
   it('unknown extract', async () => {
-    process.env['INPUT_VERSION'] = version
+    process.env['INPUT_VERSION'] = DEFAULT_VERSION
     await expect(
       updatecliExtract('/tmp/foo', 'foo.bar')
     ).rejects.toThrowErrorMatchingInlineSnapshot(
@@ -94,7 +94,7 @@ describe('main', () => {
   }, 10_000)
 
   it('unknown platform', async () => {
-    process.env['INPUT_VERSION'] = version
+    process.env['INPUT_VERSION'] = DEFAULT_VERSION
     fakePlatformArch('foo', 'bar')
     await expect(
       updatecliDownload()
@@ -105,7 +105,7 @@ describe('main', () => {
   }, 10_000)
 
   it('updatecli not found', async () => {
-    process.env['INPUT_VERSION'] = version
+    process.env['INPUT_VERSION'] = DEFAULT_VERSION
     const path = process.env['PATH']
     process.env['PATH'] = ''
     await expect(updatecliVersion()).rejects.toThrowErrorMatchingInlineSnapshot(
@@ -128,7 +128,7 @@ describe('main', () => {
 describe('updatecliDownload', () => {
   it('linux should download', async () => {
     fakePlatformArch('linux', 'x64')
-    await updatecliDownload(version)
+    await updatecliDownload(DEFAULT_VERSION)
     const file = path.join(
       cachePath,
       'updatecli',
@@ -144,7 +144,7 @@ describe('updatecliDownload', () => {
 
   it('windows should download', async () => {
     fakePlatformArch('win32', 'x64')
-    await updatecliDownload(version)
+    await updatecliDownload(DEFAULT_VERSION)
     const file = path.join(
       cachePath,
       'updatecli',
@@ -160,7 +160,7 @@ describe('updatecliDownload', () => {
 
   it('darwin should download', async () => {
     fakePlatformArch('darwin', 'x64')
-    await updatecliDownload(version)
+    await updatecliDownload(DEFAULT_VERSION)
     const file = path.join(
       cachePath,
       'updatecli',

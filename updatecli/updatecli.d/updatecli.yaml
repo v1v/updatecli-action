@@ -16,9 +16,9 @@ scms:
     default:
         kind: github
         spec:
-            branch: v2
+            branch: test
             email: me@olblak.com
-            owner: updatecli
+            owner: v1v
             repository: updatecli-action
             token: '{{requiredEnv "GITHUB_TOKEN"}}'
             user: updatecli
@@ -34,10 +34,11 @@ sources:
             token: '{{requiredEnv "GITHUB_TOKEN"}}'
 targets:
     action:
-        name: Bump updatecli version in action.yaml
-        kind: yaml
+        name: Bump updatecli version in src/main.js
+        kind: file
         spec:
-            file: action.yaml
-            key: $.inputs.version.default
+            file: src/main.js
+            matchpattern: "const DEFAULT_VERSION = (.+)"
+            replacepattern: 'const DEFAULT_VERSION = `{{ source "updatecli" }}`'
         scmid: default
         sourceid: updatecli
